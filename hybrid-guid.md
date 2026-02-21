@@ -1,4 +1,4 @@
-## Phase 2 Guide: Hybrid Teleoperation over Wi‑Fi and Ethernet
+# Phase 2 Guide: Hybrid Teleoperation over Wi‑Fi and Ethernet
 
 This guide walks you through setting up the SO101 follower arm on a
 Raspberry Pi connected to your router via Ethernet, while controlling it
@@ -6,7 +6,7 @@ from your laptop over Wi‑Fi. Phase 2 introduces network variability due to
 the laptop’s wireless connection, so additional steps are needed to ensure
 reliable serial communication and teleop stability.
 
-Prerequisites
+## Prerequisites
 
 Before starting, make sure you have:
 
@@ -27,7 +27,7 @@ SSH key pair for passwordless login from the laptop to the Pi. You
 should have already added your laptop’s public key to
 ~ubuntu/.ssh/authorized_keys on the Pi.
 
-1. Configure ser2net on the Raspberry Pi
+### 1. Configure ser2net on the Raspberry Pi
 
 The follower’s USB serial port must be shared over TCP so your laptop can
 bridge into it. ser2net is a lightweight service that exposes serial
@@ -73,7 +73,7 @@ You should see ser2net in a LISTEN state on port 15000. If the
 status command shows errors (e.g. “Invalid accepter port name”), check
 your YAML formatting—there must be no spaces after commas.
 
-2. Set up SSH tunnelling on the laptop
+### 2. Set up SSH tunnelling on the laptop
 
 Since the Pi is wired and the laptop is on Wi‑Fi, we create an SSH tunnel
 from the laptop to the Pi to forward a local port (15001) to the Pi’s
@@ -100,7 +100,7 @@ sudo ss -lntp | grep ':15001'
 You should see a LISTEN entry owned by ssh. If the tunnel fails to
 start, verify the Pi’s IP and that your SSH key is allowed.
 
-3. Bridge the serial port with socat
+### 3. Bridge the serial port with socat
 
 On the laptop, run socat to create a pseudo‑terminal that forwards
 traffic between /dev/ttyFOLLOWER and the SSH tunnel. socat acts as a
@@ -138,7 +138,7 @@ PY
 If the serial open fails, ensure socat is still running and that the
 SSH tunnel is connected.
 
-4. Run teleoperation via LeRobot
+### 4. Run teleoperation via LeRobot
 
 With ser2net, SSH tunnelling, and socat in place, you can run
 lerobot-teleoperate on your laptop. Use the pseudo‑terminal for the
@@ -167,7 +167,7 @@ adjust this if your leader appears as a different device.
 The teleop loop will run and print “Teleop loop time…” messages. If it
 aborts with “There is no status packet!”, proceed to the next section.
 
-5. Improve reliability with LeRobot patches
+### 5. Improve reliability with LeRobot patches
 
 Wireless networks can introduce jitter and dropped packets. In Phase 2 we
 found that LeRobot’s default sync_read aborts after a single missed
@@ -183,7 +183,7 @@ retries).
 Add a short backoff between retries to avoid immediate repeated
 failures:
 
-# inside the for-loop after a failed txRxPacket
+#inside the for-loop after a failed txRxPacket
 import time
 time.sleep(0.01)
 
@@ -209,7 +209,7 @@ Different serial device names: If your follower enumerates as
 /dev/ttyACM1 or another device, update both ser2net.yaml and the
 lerobot-teleoperate command accordingly.
 
-Next steps
+## Next steps
 
 After you achieve stable control in Phase 2, you can proceed to Phase 3:
 disconnect the Pi from Ethernet, connect it to the router over Wi‑Fi, and
