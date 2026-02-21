@@ -1,4 +1,4 @@
-Phase 2 Guide: Hybrid Teleoperation over Wi‑Fi and Ethernet
+##Phase 2 Guide: Hybrid Teleoperation over Wi‑Fi and Ethernet
 
 This guide walks you through setting up the SO101 follower arm on a
 Raspberry Pi connected to your router via Ethernet, while controlling it
