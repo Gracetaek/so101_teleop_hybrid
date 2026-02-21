@@ -1,0 +1,14 @@
+%YAML 1.1
+---
+#
+# Example configuration for Phase 2 hybrid teleoperation.  Exposes a local
+# USB serial device (the SO101 follower) over TCP so that it can be
+# forwarded through an SSH tunnel.  Adjust the device path and baud rate
+# to match your hardware.
+
+connection: &follower
+  accepter: tcp,0.0.0.0,15000
+  connector: serialdev,/dev/ttyACM0,1000000n81,local
+  options:
+    kickolduser: true
+    max-connections: 1
